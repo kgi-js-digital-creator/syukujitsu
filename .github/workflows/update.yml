@@ -30,4 +30,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: artifact
           publish_dir: ./dist
+          disable_nojekyll: true
           commit_message: "Update: ${{ steps.timestamp.outputs.time }}"
