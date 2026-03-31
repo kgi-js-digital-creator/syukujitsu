@@ -20,9 +20,14 @@ jobs:
       - name: Generate ISO 8601 timestamp
         id: timestamp
         run: echo "time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
-      - name: Commit and push
-        uses: EndBug/add-and-commit@v10
+      - name: Prepare artifact directory
+        run: |
+          mkdir dist
+          mv syukujitsu.json dist/
+      - name: Push to artifact branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          message: "${{ steps.timestamp.outputs.time }}"
-          add: "syukujitsu.json"
-          new_branch: artifact
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: artifact
+          publish_dir: ./dist
+          commit_message: "Update: ${{ steps.timestamp.outputs.time }}"
